@@ -1,0 +1,135 @@
+<annotation>
+  <folder>1</folder>
+  <filename>01313.jpg</filename>
+  <source>
+    <database>CKdemo</database>
+    <annotation>VOC</annotation>
+    <image>CK</image>
+  </source>
+  <size>
+    <width>1280</width>
+    <height>720</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>Non_motorized Vehicle</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>706</xmin>
+      <ymin>388</ymin>
+      <xmax>764</xmax>
+      <ymax>484</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Motor Vehicle</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>663</xmin>
+      <ymin>396</ymin>
+      <xmax>715</xmax>
+      <ymax>455</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Motor Vehicle</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>300</xmin>
+      <ymin>351</ymin>
+      <xmax>411</xmax>
+      <ymax>446</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Motor Vehicle</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>6</xmin>
+      <ymin>354</ymin>
+      <xmax>344</xmax>
+      <ymax>572</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Motor Vehicle</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>348</xmin>
+      <ymin>331</ymin>
+      <xmax>694</xmax>
+      <ymax>626</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Traffic Light-Off</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>201</xmin>
+      <ymin>4</ymin>
+      <xmax>261</xmax>
+      <ymax>55</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Traffic Light-Green Light</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>282</xmin>
+      <ymin>2</ymin>
+      <xmax>397</xmax>
+      <ymax>49</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Traffic Light-Off</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>420</xmin>
+      <ymin>1</ymin>
+      <xmax>485</xmax>
+      <ymax>53</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Traffic Light-Red Light</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>54</xmin>
+      <ymin>5</ymin>
+      <xmax>170</xmax>
+      <ymax>54</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>Traffic Light-Green Light</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>972</xmin>
+      <ymin>98</ymin>
+      <xmax>1012</xmax>
+      <ymax>227</ymax>
+    </bndbox>
+  </object>
+</annotation>

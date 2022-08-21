@@ -1,0 +1,27 @@
+<annotation>
+  <folder>1</folder>
+  <filename>000012.jpg</filename>
+  <source>
+    <database>CKdemo</database>
+    <annotation>VOC</annotation>
+    <image>CK</image>
+  </source>
+  <size>
+    <width>500</width>
+    <height>333</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>car</name>
+    <pose/>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>156</xmin>
+      <ymin>97</ymin>
+      <xmax>351</xmax>
+      <ymax>270</ymax>
+    </bndbox>
+  </object>
+</annotation>

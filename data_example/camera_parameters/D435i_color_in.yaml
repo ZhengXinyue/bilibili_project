@@ -1,0 +1,23 @@
+%YAML 1.0
+---
+CameraExtrinsicMat:
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0.,
+       1. ]
+CameraMat:
+   rows: 3
+   cols: 3
+   dt: d
+   data: [907.2818603515625, 0.0, 653.8631591796875,
+          0.0, 907.53466796875, 347.58990478515625,
+          0.0, 0.0, 1.0]
+DistCoeff:
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 0, 0, 0, 0, 0 ]
+ImageSize: [1280, 720]
+Reprojection Error: 0.0
+DistModel: plumb_bob

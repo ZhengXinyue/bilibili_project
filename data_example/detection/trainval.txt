@@ -1,0 +1,5 @@
+images\000007.jpg annotations\000007.xml
+images\000009.jpg annotations\000009.xml
+images\000012.jpg annotations\000012.xml
+images\000017.jpg annotations\000017.xml
+images\000019.jpg annotations\000019.xml

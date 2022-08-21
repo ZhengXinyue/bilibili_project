@@ -1,0 +1,4 @@
+car
+horse
+person
+cat

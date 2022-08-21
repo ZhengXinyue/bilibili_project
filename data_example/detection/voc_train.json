@@ -1,0 +1,24 @@
+{"images": [
+  {"file_name": "000007.jpg", "height": 333.0, "width": 500.0, "id": 0},
+  {"file_name": "000009.jpg", "height": 375.0, "width": 500.0, "id": 1},
+  {"file_name": "000012.jpg", "height": 333.0, "width": 500.0, "id": 2},
+  {"file_name": "000017.jpg", "height": 364.0, "width": 480.0, "id": 3},
+  {"file_name": "000019.jpg", "height": 375.0, "width": 500.0, "id": 4}],
+  "type": "instances",
+  "annotations": [
+    {"area": 100520.0, "iscrowd": 0, "bbox": [141.0, 50.0, 359.0, 280.0], "category_id": 1, "ignore": 0, "image_id": 0, "id": 1},
+    {"area": 31758.0, "iscrowd": 0, "bbox": [69.0, 172.0, 201.0, 158.0], "category_id": 2, "ignore": 0, "image_id": 1, "id": 2},
+    {"area": 11297.0, "iscrowd": 0, "bbox": [150.0, 141.0, 79.0, 143.0], "category_id": 3, "ignore": 0, "image_id": 1, "id": 3},
+    {"area": 5460.0, "iscrowd": 0, "bbox": [285.0, 201.0, 42.0, 130.0], "category_id": 3, "ignore": 0, "image_id": 1, "id": 4},
+    {"area": 5109.0, "iscrowd": 0, "bbox": [258.0, 198.0, 39.0, 131.0], "category_id": 3, "ignore": 0, "image_id": 1, "id": 5},
+    {"area": 33735.0, "iscrowd": 0, "bbox": [156.0, 97.0, 195.0, 173.0], "category_id": 1, "ignore": 0, "image_id": 2, "id": 6},
+    {"area": 12878.0, "iscrowd": 0, "bbox": [185.0, 62.0, 94.0, 137.0], "category_id": 3, "ignore": 0, "image_id": 3, "id": 7},
+    {"area": 80754.0, "iscrowd": 0, "bbox": [90.0, 78.0, 313.0, 258.0], "category_id": 2, "ignore": 0, "image_id": 3, "id": 8},
+    {"area": 42336.0, "iscrowd": 0, "bbox": [231.0, 88.0, 252.0, 168.0], "category_id": 4, "ignore": 0, "image_id": 4, "id": 9},
+    {"area": 37230.0, "iscrowd": 0, "bbox": [11.0, 113.0, 255.0, 146.0], "category_id": 4, "ignore": 0, "image_id": 4, "id": 10}],
+  "categories": [
+    {"supercategory": "none", "id": 1, "name": "car"},
+    {"supercategory": "none", "id": 2, "name": "horse"},
+    {"supercategory": "none", "id": 3, "name": "person"},
+    {"supercategory": "none", "id": 4, "name": "cat"},
+    {"supercategory": "none", "id": 5, "name": ""}]}
