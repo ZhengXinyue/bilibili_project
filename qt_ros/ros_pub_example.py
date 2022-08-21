@@ -13,8 +13,61 @@ from ros_numpy.image import numpy_to_image
 from geometry_msgs.msg import PoseWithCovariance, TwistWithCovariance, Pose, Point, Quaternion, Twist, Vector3
 from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
 
-from utils.file_op import read_bin
-from utils.transform import numpy2cloud_msg
+
+def numpy2cloud_array(array, target_fields=None):
+    """
+    转换点云需要的fields
+    :param array:            numpy.ndarray   `N x len(target_fields)`
+    :param target_fields:    ((field_name, field_dtype), ...)
+                              [('x', np.float32), ('y', np.float32), ('z', np.float32),
+                               ('r', np.uint8), ('g', np.uint8), ('b', np.uint8),
+                               ('intensity', np.uint32)]
+    :return:  new_array: numpy.ndarray
+    """
+    if target_fields is None:
+        target_fields = [('x', np.float32), ('y', np.float32), ('z', np.float32)]
+    new_array = np.zeros(shape=(array.shape[0]), dtype=target_fields)
+    for i, target_field in enumerate(target_fields):
+        field_name = target_field[0]
+        new_array[field_name] = array[:, i]
+    return new_array
+
+
+def read_bin(bin_path, intensity=False):
+    """
+    读取kitti bin格式文件点云
+    :param bin_path:   点云路径
+    :param intensity:  是否要强度
+    :return:           numpy.ndarray `N x 3` or `N x 4`
+    """
+    lidar_points = np.fromfile(bin_path, dtype=np.float32).reshape((-1, 4))
+    if not intensity:
+        lidar_points = lidar_points[:, :3]
+    return lidar_points
+
+
+def numpy2cloud_msg(array, target_fields=None, stamp=None, frame_id=None):
+    """
+    转换点云需要的fields
+    :param frame_id:         /map   /os_lidar ...
+    :param stamp:            rospy.Time.now() ...
+    :param array:            numpy.ndarray   `N x len(target_fields)`
+    :param target_fields:    ((field_name, field_dtype), ...)
+                              [('x', np.float32), ('y', np.float32), ('z', np.float32),
+                               ('r', np.uint8), ('g', np.uint8), ('b', np.uint8),
+                               ('intensity', np.uint32)]
+    :return:  cloud_msg: sensor_msgs.msg.PointCloud2
+    >>> point_cloud = read_bin('data_example/3d_detection/velodyne/000006.bin', intensity=True)
+    >>> pointcloud_publisher = rospy.Publisher('/test_pointcloud', PointCloud2, queue_size=1)
+    >>> pointcloud_publisher.publish(numpy2cloud_msg(point_cloud,
+    >>>                                              target_fields=[('x', np.float32), ('y', np.float32),
+    >>>                                                             ('z', np.float32), ('intensity', np.float32)],
+    >>>                                              stamp=rospy.Time.now(),
+    >>>                                              frame_id='/map'))
+    """
+    new_array = numpy2cloud_array(array, target_fields=target_fields)
+    cloud_msg = array_to_pointcloud2(new_array, stamp=stamp, frame_id=frame_id)
+    return cloud_msg
 
 
 if __name__ == '__main__':
