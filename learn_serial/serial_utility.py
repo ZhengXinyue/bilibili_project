@@ -64,8 +64,6 @@ class MainWindow(QMainWindow):
         self.repeat_send_timer = QTimer()
         self.repeat_send_timer.timeout.connect(self.send_data)
 
-        self.total_received_data = ''
-
     def refresh_port(self):
         """
         刷新串口
@@ -128,18 +126,17 @@ class MainWindow(QMainWindow):
                 current_data = ' '.join(data_list) + ' '
             if self.ui.auto_new_line.checkState() == Qt.Checked and self.ui.show_time.checkState() == Qt.Checked:
                 current_data = datetime.datetime.now().strftime('%H:%M:%S') + ' ' + current_data
-            self.total_received_data += current_data
             if self.ui.auto_new_line.checkState() == Qt.Checked:
-                self.total_received_data += '\n'
-            self.ui.received_data_area.setText(self.total_received_data)
-            self.ui.received_data_area.moveCursor(QTextCursor.End)
+                current_data += '\n'
+            self.ui.receive_data_area.insertPlainText(current_data)
+            if self.ui.scroll_show.isChecked():
+                self.ui.receive_data_area.verticalScrollBar().setValue(self.ui.receive_data_area.verticalScrollBar().maximum())
             self.ui.receive_data_status.setText('数据接收状态: 成功')
         except:
             self.ui.receive_data_status.setText('数据接收状态: 失败')
 
     def clear_screen(self):
-        self.ui.received_data_area.clear()
-        self.total_received_data = ''
+        self.ui.receive_data_area.clear()
 
     def open_port(self):
         current_port_name = self.ui.serial_selection.currentText()

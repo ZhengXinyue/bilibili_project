@@ -167,7 +167,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout" stretch="0,3,3,3,3,3">
+         <layout class="QVBoxLayout" name="verticalLayout" stretch="0,3,3,3,3,3,0">
           <item>
            <widget class="QPushButton" name="refresh_port">
             <property name="text">
@@ -213,6 +213,13 @@
            <widget class="QPushButton" name="clear_screen">
             <property name="text">
              <string>清屏</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="scroll_show">
+            <property name="text">
+             <string>滚动显示</string>
             </property>
            </widget>
           </item>
@@ -467,7 +474,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="text_layout" stretch="1,15,1,5">
+       <layout class="QVBoxLayout" name="text_layout" stretch="1,5,1,5">
         <property name="sizeConstraint">
          <enum>QLayout::SetMaximumSize</enum>
         </property>
@@ -479,7 +486,26 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="received_data_area"/>
+         <widget class="QPlainTextEdit" name="receive_data_area">
+          <property name="cursor" stdset="0">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="undoRedoEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="lineWrapMode">
+           <enum>QPlainTextEdit::WidgetWidth</enum>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::NoTextInteraction</set>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_12">
@@ -497,7 +523,6 @@
     </item>
    </layout>
    <zorder></zorder>
-   <zorder>horizontalLayoutWidget</zorder>
   </widget>
  </widget>
  <resources/>
