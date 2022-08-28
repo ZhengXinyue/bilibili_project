@@ -1,6 +1,8 @@
 # bilibili_project
 和bilibili教学视频相关的一些源代码    
 
+直接运行文件夹中代码即可
+
 ### qt_ros
 基于pyqt的ros主控界面     
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/qt_ros.jpg"/> </div>

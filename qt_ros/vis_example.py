@@ -29,8 +29,10 @@ import rospy
 from std_msgs.msg import String, Int8
 from sensor_msgs.msg import JointState, Imu, Image as Image_msg, PointCloud2
 from ros_numpy.image import image_to_numpy, numpy_to_image
+from ros_numpy.point_cloud2 import pointcloud2_to_array
 from geometry_msgs.msg import Twist, Vector3
 from rostopic import _rostopic_list, get_info_text
+
 
 def cloud_msg2numpy(cloud_msg, fields=('x', 'y', 'z', 'intensity'), max_intensity=float('inf'), remove_nans=True):
     """
@@ -325,13 +327,14 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, a0) -> None:
         self.ros_node.stop_flag = True
+        if hasattr(self.ros_node, 'rviz_process'):
+            self.ros_node.rviz_process.send_signal(signal.SIGINT)
+            self.ros_node.rviz_process.wait()
+            logger.info('rviz with pid %d finished.' % self.ros_node.rviz_process.pid)
         if hasattr(self.ros_node, 'roscore_process'):
             self.ros_node.roscore_process.send_signal(signal.SIGINT)
             self.ros_node.roscore_process.wait()
             logger.info('roscore with pid %d finished.' % self.ros_node.roscore_process.pid)
-        if hasattr(self.ros_node, 'rviz_process'):
-            logger.info('rviz with pid %d finished.' % self.ros_node.rviz_process.pid)
-            self.ros_node.rviz_process.terminate()
         self.ros_node.quit()
         self.ros_node.wait()
 
