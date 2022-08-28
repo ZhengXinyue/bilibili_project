@@ -30,7 +30,7 @@ from std_msgs.msg import String, Int8
 from sensor_msgs.msg import JointState, Imu, Image as Image_msg, PointCloud2
 from ros_numpy.image import image_to_numpy, numpy_to_image
 from geometry_msgs.msg import Twist, Vector3
-
+from rostopic import _rostopic_list, get_info_text
 
 def cloud_msg2numpy(cloud_msg, fields=('x', 'y', 'z', 'intensity'), max_intensity=float('inf'), remove_nans=True):
     """
@@ -85,6 +85,7 @@ class RosNode(QThread):
 
     def __init__(self):
         super(RosNode, self).__init__()
+        self.initialize_roscore()
         rospy.init_node('qt_ros_node')
         self.stop_flag = False
 
@@ -99,6 +100,23 @@ class RosNode(QThread):
         self.msg = None
         self.image = None
         self.points = None
+
+    def initialize_roscore(self):
+        """
+        initialize the roscore process.
+        :return:
+        """
+        cmd = "ps -ef | grep 'roscore' | grep -v grep | awk '{print $2}'"
+        old_pid = subprocess.getoutput(cmd)
+        if old_pid == '':
+            self.roscore_process = subprocess.Popen(shlex.split('roscore'),
+                                                    stdout=subprocess.PIPE,
+                                                    stderr=subprocess.PIPE,
+                                                    shell=False)
+            logger.info('roscore initialized with pid %d' % self.roscore_process.pid)
+            time.sleep(0.5)
+        else:
+            logger.info('using already existed roscore process with pid %s' % old_pid)
 
     def pointcloud_callback(self, msg):
         self.points = cloud_msg2numpy(msg, fields=('x', 'y', 'z'))
@@ -180,12 +198,28 @@ class MainWindow(QMainWindow):
         self.add_item_btn.clicked.connect(self.add_item)
         self.delete_item_btn.clicked.connect(self.delete_item)
 
+        self.ros_topic_list_btn = QPushButton('topic list')
+        self.layout.addWidget(self.ros_topic_list_btn)
+        self.ros_topic_list_btn.clicked.connect(self.show_topic_list)
+
+        self.start_rviz_btn = QPushButton('rviz')
+        self.layout.addWidget(self.start_rviz_btn)
+        self.start_rviz_btn.clicked.connect(self.start_rviz)
+
+        self.start_bag_record_btn = QPushButton('start record')
+        self.stop_bag_record_btn = QPushButton('stop record')
+        self.layout.addWidget(self.start_bag_record_btn)
+        self.layout.addWidget(self.stop_bag_record_btn)
+        self.start_bag_record_btn.clicked.connect(self.start_bag_record)
+        self.stop_bag_record_btn.clicked.connect(self.stop_bag_record)
+
         self.layout.setStretch(0, 7)
         self.layout.setStretch(1, 1)
         self.layout.setStretch(2, 1)
         self.layout.setStretch(3, 1)
         self.layout.setStretch(4, 1)
         self.layout.setStretch(5, 1)
+        self.layout.setStretch(6, 1)
 
         self.image_label = QLabel('image')
         self.image_label.setMinimumSize(300, 1)
@@ -219,6 +253,32 @@ class MainWindow(QMainWindow):
         self.ros_node.pointcloud_arrive_signal.connect(self.show_pointcloud)
 
         self.ros_node.image_arrive_signal.connect(self.show_image)
+
+    def start_bag_record(self):
+        cmd = 'rosbag record -a'
+        self.ros_node.record_process = subprocess.Popen(shlex.split(cmd),
+                                                        stdout=subprocess.PIPE,
+                                                        stderr=subprocess.PIPE,
+                                                        shell=False)
+
+    def stop_bag_record(self):
+        self.ros_node.record_process.send_signal(signal.SIGINT)
+
+    def start_rviz(self):
+        cmd = 'rviz'
+        self.ros_node.rviz_process = subprocess.Popen(shlex.split(cmd),
+                                                      stdout=subprocess.PIPE,
+                                                      stderr=subprocess.PIPE,
+                                                      shell=False)
+        logger.info('rviz started with pid %d' % self.ros_node.rviz_process.pid)
+
+    def show_topic_list(self):
+        cmd = 'rostopic list'
+        output = subprocess.getoutput(cmd)
+        print(output)
+        # _rostopic_list(None)
+        # text = get_info_text('/rosout')
+        # print(text)
 
     def add_item(self):
         self.box_item = gl.GLScatterPlotItem(pos=np.array([10, 10, 10]),
@@ -265,6 +325,15 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, a0) -> None:
         self.ros_node.stop_flag = True
+        if hasattr(self.ros_node, 'roscore_process'):
+            self.ros_node.roscore_process.send_signal(signal.SIGINT)
+            self.ros_node.roscore_process.wait()
+            logger.info('roscore with pid %d finished.' % self.ros_node.roscore_process.pid)
+        if hasattr(self.ros_node, 'rviz_process'):
+            logger.info('rviz with pid %d finished.' % self.ros_node.rviz_process.pid)
+            self.ros_node.rviz_process.terminate()
+        self.ros_node.quit()
+        self.ros_node.wait()
 
 
 if __name__ == '__main__':
