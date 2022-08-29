@@ -276,3 +276,7 @@ if __name__ == '__main__':
     cv2.imshow('colored_sparse_depth', colored_sparse_depth_image)
     cv2.imshow('rendered_color_image', rendered_color_image.astype(np.uint8))
     vis_pointcloud(points=valid_points, colors=colors)
+
+    # 保存numpy数组, 用作ros点云发布数据
+    # np.save('../data_example/points.npy', valid_points)   # (N, 3)  np.float32
+    # np.save('../data_example/colors.npy', colors)         # (N, 3)  np.uint8  [0, 255]
