@@ -10,8 +10,6 @@ from sensor_msgs.msg import PointCloud2, Image as Image_msg
 from sensor_msgs import point_cloud2 as pc2
 from ros_numpy.point_cloud2 import array_to_pointcloud2
 from ros_numpy.image import numpy_to_image
-from geometry_msgs.msg import PoseWithCovariance, TwistWithCovariance, Pose, Point, Quaternion, Twist, Vector3
-from jsk_recognition_msgs.msg import BoundingBox, BoundingBoxArray
 
 
 def numpy2cloud_array(array, target_fields=None):

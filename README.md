@@ -14,3 +14,7 @@
 ### camera_lidar_fusion
 视觉图像与雷达点云的数据级融合与可视化代码     
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/camera_lidar_fusion.jpg"/> </div>
+
+### colored_pc2_publish
+将带有颜色信息的点云以PointCloud2消息的形式发布到ros中  
+<div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/pc2_publish.jpg"/> </div>
