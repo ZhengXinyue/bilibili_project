@@ -6,6 +6,7 @@
 ### qt_ros
 基于pyqt的ros主控界面     
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/qt_ros.jpg"/> </div>
+<div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/qt_ros2.jpg"/> </div>
 
 ### learn_serial
 基于pyqt和pyserial的串口调试助手     
