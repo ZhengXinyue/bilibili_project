@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1575</width>
+    <height>918</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QListWidget" name="topic_list"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="refresh_topic_btn">
+              <property name="text">
+               <string>刷新话题</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Type:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="message_type">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Publisher:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="topic_publisher"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Subscribers:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="topic_subscribers"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,3,0">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QPushButton" name="start_rviz_btn">
+                <property name="text">
+                 <string>Rviz</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="play_btn">
+                <property name="text">
+                 <string>播放数据包</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="stop_play_btn">
+                <property name="text">
+                 <string>停止播放</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="stop_all_btn">
+                <property name="text">
+                 <string>停止所有播放</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="show_bag_info_btn">
+                <property name="text">
+                 <string>查看数据包</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="record_bag_btn">
+                <property name="text">
+                 <string>记录数据包</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="stop_record_bag_btn">
+                <property name="text">
+                 <string>停止记录</string>
+                </property>
+                <property name="default">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="bag_info"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="playing_bag"/>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="4">
+             <widget class="QPushButton" name="up_btn">
+              <property name="text">
+               <string>Up</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QPushButton" name="left_btn">
+              <property name="text">
+               <string>Left</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="5">
+             <widget class="QPushButton" name="right_btn">
+              <property name="text">
+               <string>Right</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="4">
+             <widget class="QPushButton" name="down_btn">
+              <property name="text">
+               <string>Down</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Turtlesim</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="2,1,1">
+        <item>
+         <widget class="GLViewWidget" name="og_widget"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="image_label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ConsoleTextEdit" name="console_text_edit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GLViewWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>pyqtgraph.opengl</header>
+  </customwidget>
+  <customwidget>
+   <class>ConsoleTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>qt_ros.my_example.main</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
