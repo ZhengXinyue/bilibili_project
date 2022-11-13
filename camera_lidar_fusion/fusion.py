@@ -189,7 +189,7 @@ def get_point_in_image(point_in_lidar, extrinsic, intrinsic, h, w):
     :param intrinsic:        内参 numpy.ndarray `3 x 3` or `3 x 4`
     :param h:                图像高 int
     :param w:                图像宽 int
-    :return: point_in_image  (u, v, z)  numpy.ndarray `M x 3`  筛选掉了后面的点和部落在图像上的点
+    :return: point_in_image  (u, v, z)  numpy.ndarray `M x 3`  筛选掉了后面的点和不落在图像上的点
     :return: depth_image     numpy.ndarray `image_h x image_w` 深度图
     """
     point_in_image, mask = get_fov_mask(point_in_lidar, extrinsic, intrinsic, h, w)
