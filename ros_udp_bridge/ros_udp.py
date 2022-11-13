@@ -134,3 +134,4 @@ if __name__ == '__main__':
             print(len(udp_msg[n * i:]))
         else:
             data_socket.sendto(udp_msg[n * i: n * (i + 1)], target_port)
+        time.sleep(0.001)
