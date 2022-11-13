@@ -60,7 +60,7 @@ if __name__ == '__main__':
     pc2_points = read_bin('../data_example/3d_detection/velodyne/000003.bin', intensity=False)   # N x 3
 
     rospy.init_node('ros_publishers')
-    pub_frequency = 1
+    pub_frequency = 0.5
     loop_rate = rospy.Rate(pub_frequency, reset=True)
 
     pc2_publisher = rospy.Publisher('/pc2_topic', PointCloud2, queue_size=1)

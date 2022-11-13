@@ -1,5 +1,6 @@
 import socket
 import struct
+import time
 from threading import Thread, Lock
 
 import numpy as np
@@ -45,7 +46,7 @@ class RosUdpBridge(object):
     def pc2_callback(self, msg):
         data = pointcloud2_to_array(msg)
         data = get_xyz_points(data)   # N x 3
-        # data = data[:10000, :]
+        # data = data[:5, :]
 
         head_frame, tail_frame = ros_udp_definition[PC2_MSG]
 
@@ -56,22 +57,21 @@ class RosUdpBridge(object):
 
         udp_msg = b''.join([head_frame, length_frame, data_frame, tail_frame])
 
-        slice_count = len(udp_msg) // 1024 + 1
-
-        sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
-
+        n = 500
+        # slice_count = len(udp_msg) // 1024 + 1
+        # sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
         # with self.lock:
         #     for i in sliced_data:
         #         self.data_socket.sendto(i, self.target_port)
         # print(udp_msg[-1024:])
+        print(len(udp_msg))
 
-        for i in range(len(udp_msg) // 1024 + 1):
-            if 1024 * (i + 1) > len(udp_msg):
-                self.data_socket.sendto(udp_msg[1024 * i:], self.target_port)
-                print(len(udp_msg[1024*i:]))
+        for i in range(len(udp_msg) // n + 1):
+            if n * (i + 1) > len(udp_msg):
+                self.data_socket.sendto(udp_msg[n * i:], self.target_port)
+                print(len(udp_msg[n*i:]))
             else:
-                self.data_socket.sendto(udp_msg[1024 * i: 1024 * (i + 1)], self.target_port)
-                # print(len(udp_msg[1024 * i: 1024 * (i + 1)]))
+                self.data_socket.sendto(udp_msg[n * i: n * (i + 1)], self.target_port)
 
 
     def uint8_callback(self, msg):
@@ -114,5 +114,29 @@ class RosUdpBridge(object):
 
 
 if __name__ == '__main__':
-    bridge = RosUdpBridge()
-    rospy.spin()
+    # bridge = RosUdpBridge()
+    # rospy.spin()
+
+    data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    data_socket.bind(('127.0.0.1', 8000))
+    target_port = ('127.0.0.1', 8005)
+
+    data_frame = np.arange(300000).reshape((-1, 3)).tobytes()
+
+    udp_msg = data_frame
+
+    n = 2048
+    # slice_count = len(udp_msg) // 1024 + 1
+    # sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
+    # with self.lock:
+    #     for i in sliced_data:
+    #         self.data_socket.sendto(i, self.target_port)
+    # print(udp_msg[-1024:])
+    print(len(udp_msg))
+
+    for i in range(len(udp_msg) // n + 1):
+        if n * (i + 1) > len(udp_msg):
+            data_socket.sendto(udp_msg[n * i:], target_port)
+            print(len(udp_msg[n * i:]))
+        else:
+            data_socket.sendto(udp_msg[n * i: n * (i + 1)], target_port)
