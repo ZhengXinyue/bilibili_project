@@ -126,12 +126,6 @@ if __name__ == '__main__':
     udp_msg = data_frame
 
     n = 2048
-    # slice_count = len(udp_msg) // 1024 + 1
-    # sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
-    # with self.lock:
-    #     for i in sliced_data:
-    #         self.data_socket.sendto(i, self.target_port)
-    # print(udp_msg[-1024:])
     print(len(udp_msg))
 
     for i in range(len(udp_msg) // n + 1):

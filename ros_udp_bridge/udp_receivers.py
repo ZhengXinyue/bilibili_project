@@ -73,5 +73,14 @@ class UdpReceiver(object):
 
 
 if __name__ == '__main__':
-    receiver = UdpReceiver()
-    receiver.start_listen()
+    # receiver = UdpReceiver()
+    # receiver.start_listen()
+
+    data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    data_socket.bind(('', 8005))
+
+    prev_message = b''
+    while True:
+        message, address = data_socket.recvfrom(8192)
+        print(len(message))
+        # prev_message = f(prev_message + message)
