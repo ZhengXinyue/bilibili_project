@@ -121,7 +121,7 @@ if __name__ == '__main__':
     data_socket.bind(('127.0.0.1', 8000))
     target_port = ('127.0.0.1', 8005)
 
-    data_frame = np.arange(300000).reshape((-1, 3)).tobytes()
+    data_frame = np.arange(30000).reshape((-1, 3)).tobytes()   # 3000 and 30000
 
     udp_msg = data_frame
 

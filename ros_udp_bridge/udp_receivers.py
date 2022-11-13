@@ -83,4 +83,5 @@ if __name__ == '__main__':
     while True:
         message, address = data_socket.recvfrom(8192)
         print(len(message))
+        prev_message += message
         # prev_message = f(prev_message + message)
