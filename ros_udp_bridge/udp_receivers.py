@@ -51,10 +51,6 @@ def parse_data(message):
     return data_dict, message
 
 
-def f(m):
-    return m
-
-
 class UdpReceiver(object):
     def __init__(self):
         self.data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -64,24 +60,11 @@ class UdpReceiver(object):
         prev_message = b''
         while True:
             message, address = self.data_socket.recvfrom(8192)
-            print(len(message))
-            prev_message = f(prev_message + message)
-
-            # parsed_data, prev_message = parse_data(prev_message + message)
-            # if PC2_MSG in parsed_data:
-            #     print(parsed_data)
+            parsed_data, prev_message = parse_data(prev_message + message)
+            if PC2_MSG in parsed_data:
+                print(parsed_data)
 
 
 if __name__ == '__main__':
-    # receiver = UdpReceiver()
-    # receiver.start_listen()
-
-    data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    data_socket.bind(('', 8005))
-
-    prev_message = b''
-    while True:
-        message, address = data_socket.recvfrom(8192)
-        print(len(message))
-        prev_message += message
-        # prev_message = f(prev_message + message)
+    receiver = UdpReceiver()
+    receiver.start_listen()

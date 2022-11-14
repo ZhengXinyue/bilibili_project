@@ -57,22 +57,12 @@ class RosUdpBridge(object):
 
         udp_msg = b''.join([head_frame, length_frame, data_frame, tail_frame])
 
-        n = 500
-        # slice_count = len(udp_msg) // 1024 + 1
-        # sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
-        # with self.lock:
-        #     for i in sliced_data:
-        #         self.data_socket.sendto(i, self.target_port)
-        # print(udp_msg[-1024:])
-        print(len(udp_msg))
-
-        for i in range(len(udp_msg) // n + 1):
-            if n * (i + 1) > len(udp_msg):
-                self.data_socket.sendto(udp_msg[n * i:], self.target_port)
-                print(len(udp_msg[n*i:]))
-            else:
-                self.data_socket.sendto(udp_msg[n * i: n * (i + 1)], self.target_port)
-
+        slice_count = len(udp_msg) // 1024 + 1
+        sliced_data = [udp_msg[i * 1024: (i + 1) * 1024] for i in range(slice_count)]
+        with self.lock:
+            for i in sliced_data:
+                self.data_socket.sendto(i, self.target_port)
+                time.sleep(0.001)
 
     def uint8_callback(self, msg):
         data = msg.data   # uint8
@@ -84,8 +74,8 @@ class RosUdpBridge(object):
 
         udp_msg = b''.join([head_frame, length_frame, data_frame, tail_frame])
 
-        # with self.lock:
-        #     self.data_socket.sendto(udp_msg, self.target_port)
+        with self.lock:
+            self.data_socket.sendto(udp_msg, self.target_port)
 
     def float32_ma_callback(self, msg):
         data = msg.data
@@ -103,8 +93,8 @@ class RosUdpBridge(object):
 
         udp_msg = b''.join([head_frame, length_frame, data_frame, tail_frame])
 
-        # with self.lock:
-        #     self.data_socket.sendto(udp_msg, self.target_port)
+        with self.lock:
+            self.data_socket.sendto(udp_msg, self.target_port)
 
     def build_message(self, head_frame, data_frame, tail_frame):
         """
@@ -114,24 +104,5 @@ class RosUdpBridge(object):
 
 
 if __name__ == '__main__':
-    # bridge = RosUdpBridge()
-    # rospy.spin()
-
-    data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    data_socket.bind(('127.0.0.1', 8000))
-    target_port = ('127.0.0.1', 8005)
-
-    data_frame = np.arange(30000).reshape((-1, 3)).tobytes()   # 3000 and 30000
-
-    udp_msg = data_frame
-
-    n = 2048
-    print(len(udp_msg))
-
-    for i in range(len(udp_msg) // n + 1):
-        if n * (i + 1) > len(udp_msg):
-            data_socket.sendto(udp_msg[n * i:], target_port)
-            print(len(udp_msg[n * i:]))
-        else:
-            data_socket.sendto(udp_msg[n * i: n * (i + 1)], target_port)
-        time.sleep(0.001)
+    bridge = RosUdpBridge()
+    rospy.spin()
