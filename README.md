@@ -19,3 +19,7 @@
 ### colored_pc2_publish
 将带有颜色信息的点云以PointCloud2消息的形式发布到ros中  
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/pc2_publish.jpg"/> </div>
+
+### ros_udp_bridge
+将ros中的消息重新解析编码, 以udp消息的形式发送, 并接收解析.
+<div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/ros_udp_bridge.png"/> </div>
