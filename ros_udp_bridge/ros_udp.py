@@ -1,7 +1,7 @@
 import socket
 import struct
 import time
-from threading import Thread, Lock
+from threading import Lock
 
 import numpy as np
 
@@ -62,7 +62,7 @@ class RosUdpBridge(object):
         with self.lock:
             for i in sliced_data:
                 self.data_socket.sendto(i, self.target_port)
-                time.sleep(0.001)
+                time.sleep(0.001)   # 避免发送频率过快丢包
 
     def uint8_callback(self, msg):
         data = msg.data   # uint8
@@ -81,7 +81,7 @@ class RosUdpBridge(object):
         data = msg.data
         head_frame, tail_frame = ros_udp_definition[FLOAT32_MSG]
 
-        # age  uint8
+        # age      uint8
         # weight   float32
         # height   u short 16
         data_frame = b''.join([struct.pack('<B', int(data[0])),
