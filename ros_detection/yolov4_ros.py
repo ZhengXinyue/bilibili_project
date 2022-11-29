@@ -17,8 +17,7 @@ def draw_bboxes(img, bboxes, color=(0, 0, 255)):
 
 
 class Yolov4Ros(object):
-    def __init__(self, predictor):
-        self.predictor = predictor
+    def __init__(self):
         self.image_subscriber = rospy.Subscriber('/tracking_image', Image, callback=self.image_callback, queue_size=1)
         self.image_publisher = rospy.Publisher('/image_publish', Image, queue_size=1)
 
@@ -33,5 +32,5 @@ if __name__ == '__main__':
     # https://github.com/Tianxiaomo/pytorch-YOLOv4
     detector = None
     rospy.init_node('yolov4_ros')
-    yolov4_ros = Yolov4Ros(predictor=detector)
+    yolov4_ros = Yolov4Ros()
     rospy.spin()
