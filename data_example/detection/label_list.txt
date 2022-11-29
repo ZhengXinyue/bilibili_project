@@ -1,4 +1,0 @@
-car
-horse
-person
-cat
