@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # Copyright (c) Megvii, Inc. and its affiliates.
 import sys
-sys.path.append('/home/YOLOX')
+sys.path.append('/home/zhengxinyue/YOLOX')
 import argparse
 import os
 import time
@@ -181,7 +181,7 @@ class Predictor(object):
 class YoloxRos(object):
     def __init__(self, predictor):
         self.predictor = predictor
-        self.image_subscriber = rospy.Subscriber('/tracking_image', Image, callback=self.image_callback, queue_size=1)
+        self.image_subscriber = rospy.Subscriber('/test_image', Image, callback=self.image_callback, queue_size=1)
         self.image_publisher = rospy.Publisher('/image_publish', Image, queue_size=1)
 
     def image_callback(self, msg):
@@ -194,7 +194,7 @@ class YoloxRos(object):
 if __name__ == "__main__":
     # https://github.com/Megvii-BaseDetection/YOLOX
     '''
-    python3 ros_detection/yolox_ros.py image -n yolox-nano -c /home/dl/yolox_nano.pth --path zzz --device gpu
+    python3 ros_detection/yolox_ros.py image -n yolox-nano -c /home/zhengxinyue/yolox_nano.pth --path zzz --device gpu
     '''
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
