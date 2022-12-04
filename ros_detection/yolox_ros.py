@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # Copyright (c) Megvii, Inc. and its affiliates.
 import sys
-sys.path.append('/home/dl/YOLOX')
+sys.path.append('/home/zhengxinyue/YOLOX')
 import argparse
 import os
 import time
