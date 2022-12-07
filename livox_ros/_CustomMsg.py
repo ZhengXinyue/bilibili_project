@@ -175,23 +175,23 @@ uint8 line              # laser number in lidar
             (length,) = _struct_I.unpack(str[start:end])
 
             # my method
-            # data = np.frombuffer(str[end:], dtype=[('offset_time', np.uint32), ('x', np.float32),
-            #                                        ('y', np.float32), ('z', np.float32),
-            #                                        ('reflectivity', np.uint8), ('tag', np.uint8),
-            #                                        ('line', np.uint8)])
-            # self.my_points = np.zeros((data.shape[0], 3), dtype=np.float32)
-            # self.my_points[:, 0] = data['x']
-            # self.my_points[:, 1] = data['y']
-            # self.my_points[:, 2] = data['z']
+            data = np.frombuffer(str[end:], dtype=[('offset_time', np.uint32), ('x', np.float32),
+                                                   ('y', np.float32), ('z', np.float32),
+                                                   ('reflectivity', np.uint8), ('tag', np.uint8),
+                                                   ('line', np.uint8)])
+            self.my_points = np.zeros((data.shape[0], 3), dtype=np.float32)
+            self.my_points[:, 0] = data['x']
+            self.my_points[:, 1] = data['y']
+            self.my_points[:, 2] = data['z']
 
-            self.points = []
-            for i in range(0, length):
-              val1 = CustomPoint()
-              _x = val1
-              start = end
-              end += 19
-              (_x.offset_time, _x.x, _x.y, _x.z, _x.reflectivity, _x.tag, _x.line,) = _get_struct_I3f3B().unpack(str[start:end])
-              self.points.append(val1)
+            # self.points = []
+            # for i in range(0, length):
+            #   val1 = CustomPoint()
+            #   _x = val1
+            #   start = end
+            #   end += 19
+            #   (_x.offset_time, _x.x, _x.y, _x.z, _x.reflectivity, _x.tag, _x.line,) = _get_struct_I3f3B().unpack(str[start:end])
+            #   self.points.append(val1)
             return self
         except struct.error as e:
             raise genpy.DeserializationError(e)  # most likely buffer underfill
