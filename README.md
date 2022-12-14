@@ -21,8 +21,12 @@
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/pc2_publish.jpg"/> </div>
 
 ### ros_udp_bridge
-将ros中的消息重新解析编码, 以udp消息的形式发送, 并接收解析.
+将ros中的消息重新解析编码, 以udp消息的形式发送, 并接收解析
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/ros_udp_bridge.png"/> </div>
+
+### ros_detection
+将目标检测算法封装到ros中
+<div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/ros_detection.png"/> </div>
 
 ### cpp_py_qt
 在qt界面中嵌入另一个界面, cpp和python通用.

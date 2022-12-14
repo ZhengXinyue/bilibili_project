@@ -70,7 +70,7 @@ def numpy2cloud_msg(array, target_fields=None, stamp=None, frame_id=None):
 
 if __name__ == '__main__':
     rospy.init_node('publisher_example')
-    frequency = 5
+    frequency = 10
     loop_rate = rospy.Rate(frequency, reset=True)
     image_publisher = rospy.Publisher('/tracking_image', Image_msg, queue_size=1)
     a = list(os.walk('../data_example/detection/images'))[0]
