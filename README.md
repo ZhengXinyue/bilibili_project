@@ -23,3 +23,7 @@
 ### ros_udp_bridge
 将ros中的消息重新解析编码, 以udp消息的形式发送, 并接收解析.
 <div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/ros_udp_bridge.png"/> </div>
+
+### cpp_py_qt
+在qt界面中嵌入另一个界面, cpp和python通用.
+<div align="center"> <img src="https://github.com/ZhengXinyue/bilibili_project/blob/main/assets/cpp_py_qt.png"/> </div>
