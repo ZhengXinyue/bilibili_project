@@ -1,11 +1,27 @@
 #include <czmq.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <signal.h>
 
 #include "zhelpers.h"
 #include "utils.h"
 
 void* context;
+
+static int s_interrupted = 0;
+static void s_signal_handler(int signal_value) {
+    s_interrupted = 1;
+}
+
+
+static void s_catch_signals (void) {
+    struct sigaction action;
+    action.sa_handler = s_signal_handler;
+    action.sa_flags = 0;
+    sigemptyset (&action.sa_mask);
+    sigaction (SIGINT, &action, NULL);
+    sigaction (SIGTERM, &action, NULL);
+}
 
 
 void request_example() {
@@ -13,6 +29,10 @@ void request_example() {
     zmq_connect(socket, "tcp://127.0.0.1:5555");
 
     while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
         char* request_message = "hello";
         zmq_send(socket, request_message, strlen(request_message) + 1, 0);
 
@@ -29,16 +49,21 @@ void request_example() {
 
 
 void subscribe_example() {
-    void* socket = zmq_socket(context, ZMQ_SUB);
-    zmq_connect(socket, "tcp://127.0.0.1:5555");
-    zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "student", 0);
+    void* subscriber = zmq_socket(context, ZMQ_SUB);
+//    zmq_setsockopt(subscriber, ZMQ_IDENTITY, "Hello", 5);
+    zmq_setsockopt(subscriber, ZMQ_SUBSCRIBE, "/student", 0);
+    zmq_connect(subscriber, "tcp://127.0.0.1:8888");
 
     while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
         Student s;
-        char* buffer = malloc(100);
-        char* topic = malloc(10);
-        zmq_recv(socket, topic, 10, 0);
-        int recv_bytes = zmq_recv(socket, buffer, 100, 0);
+        char* topic = calloc(10, sizeof(char));
+        char* buffer = calloc(100, sizeof(char));
+        zmq_recv(subscriber, topic, 10, 0);
+        int recv_bytes = zmq_recv(subscriber, buffer, 100, 0);
         printf("receive %d bytes.\n", recv_bytes);
         deserialize(&s, buffer);
         free(buffer);
@@ -47,7 +72,7 @@ void subscribe_example() {
                s.age, s.name, s.school, s.grade);
         free(s.school);
     }
-    zmq_close(socket);
+    zmq_close(subscriber);
 }
 
 
@@ -59,8 +84,11 @@ void* pull_job() {
     zmq_connect(result_socket, "tcp://127.0.0.1:5556");
 
     while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
         char* job_s = calloc(100, sizeof(char));
-
         zmq_recv(worker_socket, job_s, 100, 0);
         time_t current_time = time(NULL);
         printf("receive %s at time %ld\n", job_s, current_time);
@@ -81,6 +109,10 @@ void* pull_result() {
     void* result_socket = zmq_socket(context, ZMQ_PULL);
     zmq_bind(result_socket, "tcp://127.0.0.1:5556");
     while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
         char* result_s = calloc(100, sizeof(char));
         zmq_recv(result_socket, result_s, 100, 0);
         printf("%s\n", result_s);
@@ -109,41 +141,60 @@ void push_pull_example() {
     pthread_join(thread4, NULL);
 }
 
+
+void pull_subscribe_example() {
+    void* subscriber = zmq_socket(context, ZMQ_SUB);
+    zmq_connect(subscriber, "tcp://127.0.0.1:8888");
+    zmq_setsockopt(subscriber, ZMQ_SUBSCRIBE, "/student", 0);
+    void* puller = zmq_socket(context, ZMQ_PULL);
+    zmq_connect(puller, "tcp://127.0.0.1:5555");
+
+    zmq_pollitem_t items[] = {
+            {subscriber, 0, ZMQ_POLLIN, 0},
+            {puller, 0, ZMQ_POLLIN, 0}
+    };
+    while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
+        zmq_poll(items, 2, -1);
+        if (items[0].revents && ZMQ_POLLIN) {
+            char* topic = calloc(100, sizeof(char));
+            char* buffer = calloc(100, sizeof(char));
+            zmq_recv(subscriber, topic, 100, 0);
+            zmq_recv(subscriber, buffer, 100, 0);
+            Student s;
+            deserialize(&s, buffer);
+            printf("student age: %d, name: %s, school: %s, grade: %d\n",
+                   s.age, s.name, s.school, s.grade);
+            free(s.school);
+            free(topic);
+            free(buffer);
+        }
+        if (items[1].revents && ZMQ_POLLIN) {
+            char* job_s = calloc(100, sizeof(char));
+            zmq_recv(puller, job_s, 100, ZMQ_NOBLOCK);
+            time_t current_time = time(NULL);
+            printf("receive %s at time %ld\n", job_s, current_time);
+            free(job_s);
+        }
+    }
+    zmq_close(subscriber);
+    zmq_close(puller);
+}
+
+
 int main (void)
 {
     context = zmq_ctx_new();
-//    subscribe_example();
-    request_example();
+
+    subscribe_example();
+//    request_example();
 //    push_pull_example();
+//    pull_subscribe_example();
 
     zmq_ctx_shutdown(context);
     zmq_ctx_term(context);
-
-//    void* context = zmq_ctx_new();
-//    void* socket = zmq_socket(context, ZMQ_REQ);
-//    zmq_connect(socket, "tcp://127.0.0.1:5555");
-//
-//    while (1) {
-//        char* request_message = "request message";
-//        zmq_send(socket, request_message, strlen(request_message) + 1, 0);
-//
-//        // receive string
-//        char* s = malloc(100 * sizeof(char));
-//        zmq_recv(socket, s, 99, 0);
-//        printf("Received message: %s\n", s);
-//        free(s);
-//
-//        // receive uint32
-////        uint32_t res;
-////        zmq_recv(socket, &res, sizeof(uint32_t), 0);
-////        printf("%d\n", res);
-//
-//        // receive Person struct
-////        Person p;
-////        zmq_recv(socket, &p, sizeof(p), 0);
-////        printf("age: %d, name: %s\n", p.age, p.name);
-//        sleep(1);
-//    }
-    return 0;
 }
 

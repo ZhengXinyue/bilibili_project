@@ -1,10 +1,26 @@
 #include <czmq.h>
 #include <stdio.h>
+#include <signal.h>
 
 #include "zhelpers.h"
 #include "utils.h"
 
 void* context;
+
+static int s_interrupted = 0;
+static void s_signal_handler(int signal_value) {
+    s_interrupted = 1;
+}
+
+
+static void s_catch_signals (void) {
+    struct sigaction action;
+    action.sa_handler = s_signal_handler;
+    action.sa_flags = 0;
+    sigemptyset (&action.sa_mask);
+    sigaction (SIGINT, &action, NULL);
+    sigaction (SIGTERM, &action, NULL);
+}
 
 
 void subscribe_example() {
@@ -13,6 +29,10 @@ void subscribe_example() {
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "student", 0);
 
     while (1) {
+        if (s_interrupted) {
+            printf ("terminating...");
+            break;
+        }
         Student s;
         char* buffer = malloc(100);
         char* topic = malloc(10);

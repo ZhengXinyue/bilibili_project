@@ -17,6 +17,7 @@ target_link_libraries(
         server1
         czmq
         zmq
+        pthread
 )
 
 target_link_libraries(
