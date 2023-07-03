@@ -187,6 +187,7 @@ void pull_subscribe_example() {
 
 int main (void)
 {
+    s_catch_signals();
     context = zmq_ctx_new();
 
     subscribe_example();
